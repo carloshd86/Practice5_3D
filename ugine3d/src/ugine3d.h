@@ -12,6 +12,7 @@
 #include "world.h"
 #include "texture.h"
 #include "material.h"
+#include "light.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>

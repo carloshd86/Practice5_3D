@@ -111,8 +111,16 @@ void Shader::setInt(int loc, int val) {
 	if (loc != -1) glUniform1i(loc, val);
 }
 
+void Shader::setIntArrayIndex(int loc, int index, const int& val) {
+	if (loc != -1) glUniform1iv(loc, index, &val);
+}
+
 void Shader::setFloat(int loc, float val) {
 	if (loc != -1) glUniform1f(loc, val);
+}
+
+void Shader::setFloatArrayIndex(int loc, int index, const float& val) {
+	if (loc != -1) glUniform1fv(loc, index, &val);
 }
 
 void Shader::setVec3(int loc, const glm::vec3& vec) {

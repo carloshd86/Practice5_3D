@@ -30,7 +30,7 @@ int main() {
 	glfwMakeContextCurrent(win);
 
 	// set input mode
-	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// init ugine3d
 	if (!init()) {
@@ -42,19 +42,29 @@ int main() {
 	WorldPtr world = World::create();
 
 	// load mesh
-	MeshPtr mesh =  Mesh::load("data/asian_town.msh.xml");
+	MeshPtr mesh =  Mesh::load("data/bunny.msh.xml");
 
 	// create camera
 	CameraPtr camera = Camera::create(glm::ivec2(SCREEN_WIDTH, SCREEN_HEIGHT));
 	camera->setClearColor(glm::vec3(0, 0, 0));
-	camera->setPosition  (glm::vec3(0, 0.02f, 0));
+	camera->setPosition  (glm::vec3(0, -0.02f, 0.08f));
 	camera->setEuler     (glm::vec3(0, 0, 0));
 	world->addEntity(camera);
 
 	// create models
 	ModelPtr model = Model::create(mesh);
-	model->setEuler(glm::vec3(0, 0, 0));
+	model->setEuler(glm::vec3(90.0f, 0.0f, 0.0f));
+	model->setPosition(glm::vec3(0.03f, -0.1f, -0.3f));
 	world->addEntity(model);
+
+	// create lights
+	LightPtr directionalLight = Light::create(Light::Type::DIRECTIONAL, glm::vec3(1.f, 1.f, 1.f), 1.f);
+	directionalLight->setPosition(glm::vec3(1.0f, 1.0f, 1.0f));
+	LightPtr pointLight = Light::create(Light::Type::POINT, glm::vec3(1.f, 0.f, 0.f), 0.2f);
+	pointLight->setPosition(model->getPosition() + glm::vec3(0.0f, 0.0f, 5.0f));
+	world->setAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
+	world->addEntity(directionalLight);
+	world->addEntity(pointLight);
 
 	// main loop
 	float angle = 0;
@@ -86,17 +96,17 @@ int main() {
 		// update camera
 		float aspectRatio = 0;
 		if (screenHeight)  aspectRatio = static_cast<float>(screenWidth) / static_cast<float>(screenHeight);
-		camera->setProjection(glm::perspective(glm::radians(60.0f), aspectRatio, 0.01f, 100.0f));
+		camera->setProjection(glm::perspective(glm::radians(45.0f), aspectRatio, 0.01f, 100.0f));
 		camera->setViewport(glm::ivec4(0, 0, screenWidth, screenHeight));
 		
-		glm::vec3 cameraEuler = camera->getEuler();
+		/*glm::vec3 cameraEuler = camera->getEuler();
 		cameraEuler.x -= speedMY * rotationSpeed * deltaTime;
 		cameraEuler.y -= speedMX * rotationSpeed * deltaTime;
 		cameraEuler.x = std::max(cameraEuler.x, -60.f);
 		cameraEuler.x = std::min(cameraEuler.x, 60.f);
 		if (cameraEuler.y > 360) cameraEuler.y -= 360;
 		if (cameraEuler.y < 0) cameraEuler.y += 360;
-		camera->setEuler(cameraEuler);
+		camera->setEuler(cameraEuler);*/
 
 		/*glm::quat cameraQuaternion = camera->getQuaternion();
 		cameraQuaternion.x -= glm::radians(speedMY * rotationSpeed * deltaTime);

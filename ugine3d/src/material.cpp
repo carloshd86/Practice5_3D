@@ -79,12 +79,12 @@ void Material::prepare() {
 	State::defaultShader->setInt(shaderUsed->getLocation("texSampler"), 0);
 	if (isTexture) m_texture->bind();
 
-	size_t numLights = State::lights.size();
+	int numLights = static_cast<int>(State::lights.size());
 	State::defaultShader->setInt(shaderUsed->getLocation("numLights"), numLights);
 	State::defaultShader->setVec4(shaderUsed->getLocation("diffuseColor"), m_color);
 	State::defaultShader->setInt(shaderUsed->getLocation("shininess"), m_shininess);
 	State::defaultShader->setVec3(shaderUsed->getLocation("ambientLight"), State::ambient);
-	for (size_t i = 0; i < numLights; ++i) {
+	for (int i = 0; i < numLights; ++i) {
 		State::lights[i]->prepare(i, State::defaultShader);
 	}
 }

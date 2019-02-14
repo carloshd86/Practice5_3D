@@ -72,8 +72,16 @@ void Material::setShininess(uint8_t shininess) {
 void Material::prepare() {
 	ShaderPtr shaderUsed = getShader();
 	shaderUsed->use();
+
 	glm::mat4 mvpMatrix = State::projectionMatrix * State::viewMatrix * State::modelMatrix;
 	State::defaultShader->setMatrix(shaderUsed->getLocation("mvp"), mvpMatrix);
+
+	glm::mat4 modelviewMatrix = State::viewMatrix * State::modelMatrix;
+	State::defaultShader->setMatrix(shaderUsed->getLocation("modelView"), modelviewMatrix);
+
+	glm::mat4 normalMatrix = glm::transpose(glm::inverse(modelviewMatrix));
+	State::defaultShader->setMatrix(shaderUsed->getLocation("mNormal"), normalMatrix);
+
 	int isTexture = m_texture ? 1 : 0;
 	State::defaultShader->setInt(shaderUsed->getLocation("isTexture"), isTexture);
 	State::defaultShader->setInt(shaderUsed->getLocation("texSampler"), 0);

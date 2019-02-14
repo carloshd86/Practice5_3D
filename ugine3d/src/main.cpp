@@ -2,6 +2,9 @@
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 #endif
 
+#define DEGREES_TO_RAD 0.0174532925
+#define RAD_TO_DEGREES 57.2957795
+
 #include "ugine3d.h"
 #include "state.h"
 #include "../lib/glfw/glfw3.h"
@@ -47,8 +50,8 @@ int main() {
 	// create camera
 	CameraPtr camera = Camera::create(glm::ivec2(SCREEN_WIDTH, SCREEN_HEIGHT));
 	camera->setClearColor(glm::vec3(0, 0, 0));
-	camera->setPosition  (glm::vec3(0, -0.02f, 0.08f));
-	camera->setEuler     (glm::vec3(0, 0, 0));
+	camera->setPosition  (glm::vec3(0, 0.20f, 0.08f));
+	camera->setEuler     (glm::vec3(330, 0, 0));
 	world->addEntity(camera);
 
 	// create models
@@ -58,15 +61,16 @@ int main() {
 	world->addEntity(model);
 
 	// create lights
-	LightPtr directionalLight = Light::create(Light::Type::DIRECTIONAL, glm::vec3(1.f, 1.f, 1.f), 1.f);
+	LightPtr directionalLight = Light::create(Light::Type::DIRECTIONAL, glm::vec3(1.f, 1.f, 1.f), 0.2f);
 	directionalLight->setPosition(glm::vec3(1.0f, 1.0f, 1.0f));
+	world->addEntity(directionalLight);
 	LightPtr pointLight = Light::create(Light::Type::POINT, glm::vec3(1.f, 0.f, 0.f), 0.2f);
 	pointLight->setPosition(model->getPosition() + glm::vec3(0.0f, 0.0f, 5.0f));
 	world->setAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
-	world->addEntity(directionalLight);
 	world->addEntity(pointLight);
 
 	// main loop
+	glm::vec3 modelPosition = model->getPosition();
 	float angle = 0;
 	float translationSpeed = 0.05f;
 	float rotationSpeed = 30.f;
@@ -124,6 +128,12 @@ int main() {
 		if (glfwGetKey(win, GLFW_KEY_DOWN)) movement.y = -translationSpeed * deltaTime;	
 		camera->move(movement);
 		
+		angle += rotationSpeed * deltaTime * DEGREES_TO_RAD;
+
+		glm::vec3 lightPosition(0.f, 0.f, 0.f);
+		lightPosition.x = modelPosition.x + sin(angle) * 5.f;
+		lightPosition.z = modelPosition.z + cos(angle) * 5.f;
+		pointLight->setPosition(lightPosition);
 
 		// update world
 		world->update(deltaTime);

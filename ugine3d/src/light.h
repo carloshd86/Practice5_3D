@@ -10,8 +10,8 @@ class Light : public Entity {
 public:
 
 	enum Type {
-		DIRECTIONAL,
-		POINT
+		DIRECTIONAL = 0,
+		POINT = 1
 	};
 
 	static LightPtr create(Type type, const glm::vec3& color, float linearAttenuation);

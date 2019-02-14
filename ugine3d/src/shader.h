@@ -27,11 +27,8 @@ public:
 
 	// Da valor a una variable uniform
 	static void setInt(int loc, int val);
-	static void setIntArrayIndex(int loc, int index, const int& val);
 	static void setFloat(int loc, float val);
-	static void setFloatArrayIndex(int loc, int index, const float& val);
 	static void setVec3(int loc, const glm::vec3& vec);
-	static void setVec3ArrayIndex(int loc, int index, const glm::vec3& vec);
 	static void setVec4(int loc, const glm::vec4& vec);
 	static void setMatrix(int loc, const glm::mat4& matrix);
 protected:

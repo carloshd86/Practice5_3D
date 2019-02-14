@@ -36,7 +36,7 @@ Shader::Shader(const std::string& vertex, const std::string& fragment) : m_id(0)
 	glCompileShader(fragmentShader);
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &retCode);
 	if (retCode == GL_FALSE) {
-		char errorLog[1024];
+		char errorLog[2048];
 		glGetShaderInfoLog(fragmentShader, sizeof(errorLog), nullptr, errorLog);
 		m_error = errorLog;
 		glDeleteShader(vertexShader);
@@ -62,9 +62,9 @@ Shader::Shader(const std::string& vertex, const std::string& fragment) : m_id(0)
 	}
 
 	// use program and get locations
-	m_vposLoc = glGetAttribLocation(m_id, "vpos");
-	m_vcolorLoc = glGetAttribLocation(m_id, "vcolor");
-	m_vtexLoc = glGetAttribLocation(m_id, "vtex");
+	m_vposLoc    = glGetAttribLocation(m_id, "vpos");
+	m_vcolorLoc  = glGetAttribLocation(m_id, "vcolor");
+	m_vtexLoc    = glGetAttribLocation(m_id, "vtex");
 	m_vnormalLoc = glGetAttribLocation(m_id, "vnormal");
 }
 
@@ -111,24 +111,12 @@ void Shader::setInt(int loc, int val) {
 	if (loc != -1) glUniform1i(loc, val);
 }
 
-void Shader::setIntArrayIndex(int loc, int index, const int& val) {
-	if (loc != -1) glUniform1iv(loc, index, &val);
-}
-
 void Shader::setFloat(int loc, float val) {
 	if (loc != -1) glUniform1f(loc, val);
 }
 
-void Shader::setFloatArrayIndex(int loc, int index, const float& val) {
-	if (loc != -1) glUniform1fv(loc, index, &val);
-}
-
 void Shader::setVec3(int loc, const glm::vec3& vec) {
 	if (loc != -1) glUniform3fv(loc, 1, glm::value_ptr(vec));
-}
-
-void Shader::setVec3ArrayIndex(int loc, int index, const glm::vec3& vec) {
-	if (loc != -1) glUniform3fv(loc, index, glm::value_ptr(vec));
 }
 
 void Shader::setVec4(int loc, const glm::vec4& vec) {

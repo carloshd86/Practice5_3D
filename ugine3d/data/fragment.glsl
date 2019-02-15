@@ -38,7 +38,9 @@ void main() {
 			if (NdotL > 0) {
 				vec3 H = normalize(E - L);
 				float NdotH = max(dot(N, H), 0);
-				finalSpecular = finalSpecular + pow(NdotH, shininess) * attenuationFactor * lightColor[i]; 
+				if (NdotH > 0) {
+					finalSpecular = finalSpecular + pow(NdotH, shininess) * attenuationFactor * lightColor[i]; 
+				}
 			}
 		}
 

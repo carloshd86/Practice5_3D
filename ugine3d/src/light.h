@@ -14,7 +14,7 @@ public:
 		POINT = 1
 	};
 
-	static LightPtr create(Type type, const glm::vec3& color, float linearAttenuation);
+	static LightPtr create(Type type, const glm::vec3& color, float linearAttenuation = 1.0f);
 
 	Type getType() const    { return m_type; }
 	void setType(Type type) { m_type = type; }
@@ -28,7 +28,7 @@ public:
 	void prepare(int index, std::shared_ptr<Shader>& shader) const;
 
 protected:
-	Light(Type type, const glm::vec3& color, float linearAttenuation) : Entity(), m_type(type), m_color(color), m_linearAttenuation(linearAttenuation) {}
+	Light(Type type, const glm::vec3& color, float linearAttenuation = 1.0f) : Entity(), m_type(type), m_color(color), m_linearAttenuation(linearAttenuation) {}
 	virtual ~Light() {}
 private:
 	static const float CONSTANT_ATTENUATION;

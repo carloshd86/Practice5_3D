@@ -61,18 +61,18 @@ int main() {
 	world->addEntity(model);
 
 	// create lights
-	LightPtr directionalLight = Light::create(Light::Type::DIRECTIONAL, glm::vec3(1.f, 1.f, 1.f), 0.2f);
-	directionalLight->setPosition(glm::vec3(1.0f, 1.0f, 1.0f));
+	LightPtr directionalLight = Light::create(Light::Type::DIRECTIONAL, glm::vec3(1.f, 1.f, 1.f));
+	directionalLight->setPosition(glm::vec3(1.f, 1.f, 1.f));
 	world->addEntity(directionalLight);
 	LightPtr pointLight = Light::create(Light::Type::POINT, glm::vec3(1.f, 0.f, 0.f), 0.2f);
 	pointLight->setPosition(model->getPosition() + glm::vec3(0.0f, 0.0f, 5.0f));
-	world->setAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
 	world->addEntity(pointLight);
+	world->setAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
 
 	// main loop
 	glm::vec3 modelPosition = model->getPosition();
 	float angle = 0;
-	float translationSpeed = 0.05f;
+	float translationSpeed = 0.20f;
 	float rotationSpeed = 30.f;
 	double mouseX = 0, mouseY = 0, lastMX = 0, lastMY = 0;
 	int speedMX = 0, speedMY = 0;
